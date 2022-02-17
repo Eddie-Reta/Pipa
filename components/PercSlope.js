@@ -8,14 +8,13 @@ const PercSlope = (max, min, run) => {
     const rise = max - min;
     const diff = rise / run;
     const percentage = 100 * diff;
+    console.log(percentage);
 
     const percStr = percentage.toString().split(".");
     const newNum = percStr[0].concat("." + percStr[1].slice(0, 3));
     const newPercent = parseFloat(newNum);
 
-    return (
-        <Text>{newPercent}</Text>
-    )
+ return newPercent
 };
 
 export default PercSlope;

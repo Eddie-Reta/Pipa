@@ -7,7 +7,11 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "test": "jest ./test/percSlope.test.js"
+  },
+  "jest": {
+    "preset": "react-native"
   },
   "dependencies": {
     "expo": "~44.0.0",
