@@ -1,16 +1,7 @@
 import React, { Component, useState } from "react";
 import { SafeAreaView, View, Text, TextInput, Button, StyleSheet, Switch, Keyboard } from "react-native";
 import PercSlope from "./PercSlope";
-
-    // console.log(`slope function working`);
-
-    // const regex = /\d/
-    // regex.test(max)
-    // if (regex.test(max)) {
-    //     console.log("ture")
-    // } else {r
-    //     console.log("false")
-    // }
+import ValidateInput from "./InputValidation";
 
 const NumInput = () => {
     const [highNum, setHighNum] = useState("");
@@ -19,31 +10,39 @@ const NumInput = () => {
     const [viewPerc, toggleState] = useState(false);
     const toggleSwitch = () => toggleState(previousState => !previousState);
 
-    ViewPercentage(viewPerc)
+   // ViewPercentage(viewPerc)
 
     return (
-            <View>
+            <View style={styles.container}>
             <Text>High Number: </Text>
                     <TextInput
                     onChangeText={setHighNum}
                     value={highNum}
                     placeholder="ex. 10.5"
+                    style={styles.input}
                     />
                     <Text>Low Number: </Text>
                     <TextInput
                    onChangeText={setLowNum}
                    value={lowNum}
                    placeholder="ex. 8.5"
+                   style={styles.input}
                     />
                     <Text>Distance in Feet: </Text>
                     <TextInput
                    onChangeText={setRun}
                    value={run}
                    placeholder="Number of Feet"
+                   style={styles.input}
                     />
                       <Button 
                         title="Calculate"
-                        onPress={Keyboard.dismiss}
+                        onPress={() => {
+                            ValidateInput(highNum);
+                            ValidateInput(lowNum);
+                            ValidateInput(run);
+
+                        }}
                         color = "#007AFF"
                     />
                     {viewPerc ? <ViewPercentage percentage={PercSlope(highNum, lowNum, run)} /> : null}
@@ -77,7 +76,11 @@ export default Home;
 const styles = StyleSheet.create({
     container: {
         backgroundColor: "grey",
-        flex: 1,
-        justifyContent: "center"
+    },
+    input: {
+        height: 60,
+        margin: 12,
+        borderWidth: 1,
+        padding: 10
     }
 })

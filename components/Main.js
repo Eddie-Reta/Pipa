@@ -5,7 +5,7 @@ import Algorithm from "./AlgorithmPage";
 class Main extends Component {
     render() {
         return (
-            <View>
+            <View style={{backgroundColor: "blue"}}>
                 <Algorithm />
             </View>
         )
