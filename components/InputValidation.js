@@ -8,7 +8,7 @@ import { Text } from "react-native";
         if (num === null || num === undefined || num === "") {
             console.log(null);
         } else if (onlyNum.test(num) || singleNum.test(num)) {
-            console.log(num)
+            return true
         } else {
                     console.log("Not a Num.")
         };

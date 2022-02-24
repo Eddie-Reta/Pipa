@@ -3,14 +3,17 @@ import { SafeAreaView, View, Text, TextInput, Button, StyleSheet, Switch, Keyboa
 import PercSlope from "./PercSlope";
 import ValidateInput from "./InputValidation";
 
-const NumInput = () => {
+const NumInput = (props) => {
     const [highNum, setHighNum] = useState("");
     const [lowNum, setLowNum] = useState("");
     const [run, setRun] = useState("");
+    const [activeInputColor, setInputColor] = useState(null);
+    const [activeInput, toggleInputState] =  useState(true);
     const [viewPerc, toggleState] = useState(false);
     const toggleSwitch = () => toggleState(previousState => !previousState);
+    const toggleInputColor = () => toggleInputState(previousState => !previousState);
 
-   // ViewPercentage(viewPerc)
+    ViewPercentage(viewPerc)
 
     return (
             <View style={styles.container}>
@@ -19,14 +22,27 @@ const NumInput = () => {
                     onChangeText={setHighNum}
                     value={highNum}
                     placeholder="ex. 10.5"
-                    style={styles.input}
+                    style={[styles.input,
+                        
+                        {borderColor: activeInputColor}]
+                    }
+                    keyboardType="decimal-pad"
+                    onFocus={() => {
+                        activeInput ? setInputColor("#37FB1B") : setInputColor("black");
+                    }}
+                    onBlur={() => {
+                        toggleInputColor()
+                    }}
+                    textAlign="center"
                     />
+
                     <Text>Low Number: </Text>
                     <TextInput
                    onChangeText={setLowNum}
                    value={lowNum}
                    placeholder="ex. 8.5"
                    style={styles.input}
+                   keyboardType="decimal-pad"
                     />
                     <Text>Distance in Feet: </Text>
                     <TextInput
@@ -34,14 +50,15 @@ const NumInput = () => {
                    value={run}
                    placeholder="Number of Feet"
                    style={styles.input}
+                   keyboardType="decimal-pad"
                     />
                       <Button 
                         title="Calculate"
                         onPress={() => {
-                            ValidateInput(highNum);
-                            ValidateInput(lowNum);
-                            ValidateInput(run);
-
+                           if(ValidateInput(highNum) && ValidateInput(lowNum) && ValidateInput(run)) {
+                               toggleSwitch();
+                           }
+                            
                         }}
                         color = "#007AFF"
                     />
@@ -54,7 +71,7 @@ const NumInput = () => {
 const ViewPercentage = (props) => {   
             return (
         <View>
-            <Text>{props.percentage}%</Text>
+            <Text>{props.percentage}</Text>
         </View>
     )
 };
@@ -65,7 +82,7 @@ class Home extends Component {
         return (
             
                 <View>
-                    <NumInput />
+                    <NumInput  />
                 </View>
         )
     }
@@ -75,12 +92,15 @@ export default Home;
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "grey",
+       
     },
     input: {
         height: 60,
         margin: 12,
         borderWidth: 1,
         padding: 10
+    },
+    inputActive: {
+        borderColor: "green"
     }
 })

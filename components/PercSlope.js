@@ -4,7 +4,12 @@ import { Text , ScrollView, View} from "react-native";
 // Slope Percentage
 
 const PercSlope = (max, min, run) => {
-    
+    console.log("...." + max, min , run)
+    if (max === null || min === "" || run === "") {
+        return ( 
+        <Text>Please Enter Numbers</Text>
+        )
+    } else {
     const rise = max - min;
     const diff = rise / run;
     const percentage = 100 * diff;
@@ -16,7 +21,7 @@ const PercSlope = (max, min, run) => {
     const newPercent = parseFloat(newNum);
 
     return newPercent;
-
+    }
 };
 
 export default PercSlope;
