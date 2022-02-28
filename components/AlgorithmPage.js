@@ -7,63 +7,113 @@ const NumInput = (props) => {
     const [highNum, setHighNum] = useState("");
     const [lowNum, setLowNum] = useState("");
     const [run, setRun] = useState("");
-    const [activeInputColor, setInputColor] = useState(null);
+    const [activeInputColor, setInputColor] = useState({
+        highNum: "black",
+        lowNum: "black",
+        run: "black"
+    });
     const [activeInput, toggleInputState] =  useState(true);
     const [viewPerc, toggleState] = useState(false);
+    const [prevNum, setPrevNum] = useState({
+                                            highNum: 0,
+                                            lowNum: 0,
+                                            run: 0
+    });
+    const [percentage, setNewPerc] = useState(0);
     const toggleSwitch = () => toggleState(previousState => !previousState);
     const toggleInputColor = () => toggleInputState(previousState => !previousState);
-
-    ViewPercentage(viewPerc)
-
+    
     return (
             <View style={styles.container}>
-            <Text>High Number: </Text>
-                    <TextInput
-                    onChangeText={setHighNum}
-                    value={highNum}
-                    placeholder="ex. 10.5"
-                    style={[styles.input,
+                <Text>{(prevNum.highNum != 0) ? `High Number Entered ${prevNum.highNum}` : "High Number: "}</Text>
+                        <TextInput
+                            onChangeText={setHighNum}
+                            value={highNum}
+                            placeholder="ex. 10.5"
+                            style={[styles.input,
+                                
+                                {borderColor: activeInputColor.highNum}]
+                            }
+                            keyboardType="decimal-pad"
+                            onFocus={() => {
+                                setInputColor({highNum: "#37FB1B"})
+                            }}
+                            onBlur={() => {
+                                setInputColor({highNum: "black"})
+                            }}
+                            maxLength={10}
+                            textAlign="center"
+                        />
+                        <Text>Low Number: {(prevNum.lowNum != 0) ? prevNum.lowNum : null}</Text>
+                            <TextInput
+                                onChangeText={setLowNum}
+                                value={lowNum}
+                                placeholder="ex. 8.5"
+                                style={[styles.input,
+                                
+                                    {borderColor: activeInputColor.lowNum}]
+                                }
+                                keyboardType="decimal-pad"
+                                onFocus={() => {
+                                    setInputColor({lowNum: "#37FB1B"})
+                                }}
+                                onBlur={() => {
+                                    setInputColor({lowNum: "black"})
+                                }}
+                                maxLength={10}
+                                textAlign="center"
+                            />
+                        <Text>Distance in Feet: {(prevNum.run != 0) ? prevNum.run : null}</Text>
+                            <TextInput
+                                onChangeText={setRun}
+                                value={run}
+                                placeholder="Number of Feet"
+                                style={[styles.input,
+                                
+                                    {borderColor: activeInputColor.run}]
+                                }
+                                keyboardType="decimal-pad"
+                                onFocus={() => {
+                                    setInputColor({run: "#37FB1B"})
+                                }}
+                                onBlur={() => {
+                                    setInputColor({run: "black"})
+                                }}
+                                maxLength={10}
+                                textAlign="center"
+                            />
+                        <Button 
+                            title="Calculate"
+                            onPress={() => {
+                            //  if (calcPressed) {
+                                    if(ValidateInput(highNum) && ValidateInput(lowNum) && ValidateInput(run)) {
+                                        const slopePerc = PercSlope(highNum, lowNum, run);
+                                        setNewPerc(slopePerc);
+                                        setPrevNum({
+                                            highNum:highNum,
+                                            lowNum:lowNum,
+                                            run:run
+                                        });
+                                        setHighNum("");
+                                        setLowNum("");
+                                        setRun("");
+                                        toggleState(true);
+                                        Keyboard.dismiss();
+                                       
+                                            // if (slopePerc !== percentage) {
+                                            //     toggleSwitch();
+                                            // }
+                                            // toggleSwitch()
+                                    }
+                                        // setCalcBoolean(false);
+                                // } else {
+                                //     console.log("hello")
+                                // } 
+                            }}
+                            color = "#007AFF"
+                        />
+                        {viewPerc ? <ViewPercentage percentage={percentage} /> : null}
                         
-                        {borderColor: activeInputColor}]
-                    }
-                    keyboardType="decimal-pad"
-                    onFocus={() => {
-                        activeInput ? setInputColor("#37FB1B") : setInputColor("black");
-                    }}
-                    onBlur={() => {
-                        toggleInputColor()
-                    }}
-                    textAlign="center"
-                    />
-
-                    <Text>Low Number: </Text>
-                    <TextInput
-                   onChangeText={setLowNum}
-                   value={lowNum}
-                   placeholder="ex. 8.5"
-                   style={styles.input}
-                   keyboardType="decimal-pad"
-                    />
-                    <Text>Distance in Feet: </Text>
-                    <TextInput
-                   onChangeText={setRun}
-                   value={run}
-                   placeholder="Number of Feet"
-                   style={styles.input}
-                   keyboardType="decimal-pad"
-                    />
-                      <Button 
-                        title="Calculate"
-                        onPress={() => {
-                           if(ValidateInput(highNum) && ValidateInput(lowNum) && ValidateInput(run)) {
-                               toggleSwitch();
-                           }
-                            
-                        }}
-                        color = "#007AFF"
-                    />
-                    {viewPerc ? <ViewPercentage percentage={PercSlope(highNum, lowNum, run)} /> : null}
-                    
         </View>
     )
 };
