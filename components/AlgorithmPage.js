@@ -1,7 +1,7 @@
 import React, { Component, useState } from "react";
 import { SafeAreaView, View, Text, TextInput, Button, StyleSheet, Switch, Keyboard } from "react-native";
 import PercSlope from "./PercSlope";
-import ValidateInput from "./InputValidation";
+import { ValidateInput } from "./InputValidation";
 
 const NumInput = (props) => {
     const [highNum, setHighNum] = useState("");
@@ -99,16 +99,7 @@ const NumInput = (props) => {
                                         setRun("");
                                         toggleState(true);
                                         Keyboard.dismiss();
-                                       
-                                            // if (slopePerc !== percentage) {
-                                            //     toggleSwitch();
-                                            // }
-                                            // toggleSwitch()
                                     }
-                                        // setCalcBoolean(false);
-                                // } else {
-                                //     console.log("hello")
-                                // } 
                             }}
                             color = "#007AFF"
                         />

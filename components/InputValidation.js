@@ -7,7 +7,14 @@
         } else if (onlyNum.test(num) || singleNum.test(num)) {
             return true
         } else {
-                    console.log("Not a Num.")
+                const err = new Error(`Please enter only digits!`);
+                return err;
         };
     }
-    export default ValidateInput;
+
+    const ValidateDot = (num) => {
+        const dotCheck = /\./;
+       return dotCheck.test(num);
+    };
+
+    export {ValidateInput, ValidateDot};
